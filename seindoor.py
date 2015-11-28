@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Import necessary modules
 import configparser
@@ -10,7 +10,7 @@ import time
 # Initialize the config parser
 config = configparser.ConfigParser()
 
-# Config file stuff
+# See if we specified a config file as an argument
 argtotal = len(sys.argv)
 if argtotal > 2:
   print("More than one argument specified!")
@@ -22,13 +22,22 @@ elif argtotal == 2:
   except IOError:
     raise
 else:
+  # If not, load the default config file
   config.read('seindoor.conf')
 
 # Grab and assign the config variables
 path   = config['DEFAULT']['path']
 pin    = int(config['DEFAULT']['pin'])
 player = config['DEFAULT']['player']
-files  = os.listdir(path)
+
+# Make sure the audio path specified in the config file exists
+if not os.path.exists(path):
+  print("The path %s/%s does not exist." % (os.getcwd(), path))
+  exit(1)
+else:
+  # If it does, ensure it's absolute, for good measure
+  path   = os.path.abspath(path)
+  files  = os.listdir(path)
 
 # Setup GPIO
 gpio.setmode(gpio.BCM)
@@ -48,6 +57,6 @@ finally:
   gpio.cleanup()
 
 # Loop through and play the files
-for i in files:
-  cmd = "%s %s/%s" % (player, path, i)
-  os.system(cmd)
+#for i in files:
+#  cmd = "%s %s/%s" % (player, path, i)
+#  os.system(cmd)
