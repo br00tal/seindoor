@@ -2,7 +2,9 @@
 
 # Import necessary modules
 import configparser
+import glob
 import os
+import random
 import RPi.GPIO as gpio
 import sys
 import time
@@ -37,7 +39,7 @@ if not os.path.exists(path):
 else:
   # If it does, ensure it's absolute, for good measure
   path   = os.path.abspath(path)
-  files  = os.listdir(path)
+  files  = glob.glob(os.path.join(path, '*'))
 
 # Setup GPIO
 gpio.setmode(gpio.BCM)
@@ -47,16 +49,13 @@ gpio.setup(pin, gpio.IN)
 try:
   while True:
     sensor = gpio.input(pin)
+    cmd = "%s %s" % (player, random.choice(files))
     if sensor:
       sys.stdout.write('+')
+      os.system(cmd)
     else:
       sys.stdout.write('-')
     sys.stdout.flush()
     time.sleep(1)
 finally:
   gpio.cleanup()
-
-# Loop through and play the files
-#for i in files:
-#  cmd = "%s %s/%s" % (player, path, i)
-#  os.system(cmd)

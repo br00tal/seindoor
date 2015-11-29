@@ -1,0 +1,12 @@
+# This is the default config file for seindoor, a python script to play audio
+# files when a reed (door) sensor is opened.  The original intent was to play
+# the Seinfeld bass riff whenever the door was opened, but any audio file can
+# technically be played.
+
+[DEFAULT]
+# The directory containing the audio file(s) to play
+path = poop
+# The GPIO pin on the Raspberry Pi to use for the magnetic switch
+pin = 25
+# The player to use (i.e. mpg123, mplayer)
+player = mpg123
