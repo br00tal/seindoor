@@ -53,6 +53,12 @@ try:
     if sensor:
       sys.stdout.write('+')
       os.system(cmd)
+      # Loop to avoid continuously playing sound if door is left open
+      while True:
+        opentest = gpio.input(pin)
+        if not opentest:
+          break
+        time.sleep(1)
     else:
       sys.stdout.write('-')
     sys.stdout.flush()
