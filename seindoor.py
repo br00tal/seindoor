@@ -15,7 +15,7 @@ config = configparser.ConfigParser()
 # See if we specified a config file as an argument
 argtotal = len(sys.argv)
 if argtotal > 2:
-  print("More than one argument specified!")
+  print('More than one argument specified!')
   exit(1)
 elif argtotal == 2:
   try:
@@ -38,20 +38,19 @@ if not os.path.exists(path):
   exit(1)
 else:
   # If it does, ensure it's absolute, for good measure
-  path   = os.path.abspath(path)
-  files  = glob.glob(os.path.join(path, '*'))
+  path  = os.path.abspath(path)
+  files = glob.glob(os.path.join(path, '*'))
 
 # Setup GPIO
 gpio.setmode(gpio.BCM)
-gpio.setup(pin, gpio.IN)
+gpio.setup(pin, gpio.IN, pull_up_down=gpio.PUD_UP)
 
 # Initiate the loop to check the switch
 try:
   while True:
     sensor = gpio.input(pin)
-    cmd = "%s %s" % (player, random.choice(files))
+    cmd    = "%s %s" % (player, random.choice(files))
     if sensor:
-      sys.stdout.write('+')
       os.system(cmd)
       # Loop to avoid continuously playing sound if door is left open
       while True:
@@ -59,8 +58,6 @@ try:
         if not opentest:
           break
         time.sleep(1)
-    else:
-      sys.stdout.write('-')
     sys.stdout.flush()
     time.sleep(1)
 finally:
