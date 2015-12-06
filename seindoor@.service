@@ -1,0 +1,10 @@
+[Unit]
+Description=seindoor using /etc/seindoor/%i.conf
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/screen -d -m -S seindoor /usr/bin/seindoor.py /etc/seindoor/%i.conf
+ExecStop=/usr/bin/screen -S seindoor -X quit
+
+[Install]
+WantedBy=multi-user.target

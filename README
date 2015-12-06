@@ -8,10 +8,21 @@ door was opened, but any audio file can technically be played.
 Usage
 -----
 
+Ad-hoc, non-daemon mode:
+
 ./seindoor.py [/path/to/configfile]
 
 The config file argument is optional.  If not specified, the default config
 (seindoor.conf) is loaded.
+
+As a service via systemd:
+
+make install
+systemctl start seindoor@example
+
+This will start seindoor as a service loading the /etc/seindoor/example.conf
+config file.  The daemon method *requires* a config file to be specified.
+You also need to set a full path to the audio files in the config file.
 
 Dependencies
 ------------
@@ -23,3 +34,4 @@ Dependencies
 - Some sort of speaker
 - Audio files (mp3s, wavs, etc.)
 - An audio player (i.e. mpg123, mplayer)
+- systemd (for daemon mode) (optional)
